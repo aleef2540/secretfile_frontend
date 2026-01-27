@@ -1,0 +1,23 @@
+.react-resizable {
+  position: relative;
+}
+
+.react-resizable-handle {
+  position: absolute;
+  right: -5px;
+  bottom: 0;
+  cursor: col-resize;
+  width: 10px;
+  height: 100%;
+  z-index: 1;
+}
+
+th.table-header-center {
+  text-align: center !important;
+}
+
+.no-wrap-table .ant-table-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
