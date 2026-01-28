@@ -151,6 +151,8 @@ function App() {
     const [ok, setOk] = useState(false);
     const [del, setDel] = useState(false);
 
+    const API_URL = "https://my-backend-api.onrender.com";
+
 
     const getHeaderTitle = () => {
         if (showUserTable) return 'จัดการผู้ใช้';
@@ -212,7 +214,7 @@ function App() {
     };
     const handleLogin = async (values) => {
         try {
-            const response = await axios.post('http://localhost:5278/api/logins', values);
+            const response = await axios.post('${API_URL}/api/logins', values);
             const { username, role } = response.data;
 
 
