@@ -254,18 +254,18 @@ function App() {
     };
     const fetchReceiveDocs = async () => {
         try {
-            const resp = await axios.get('http://localhost:5278/api/receivedocs');
+            const resp = await axios.get(`${API_URL}/api/receivedocs`);
             setReceiveDocs(resp.data);
         } catch (err) {
             console.error('fetchReceiveDocs error', err);
         }
     };
     const fetchSecretfiles = async () => {
-        const response = await axios.get('http://localhost:5278/api/secretfilessend');
+        const response = await axios.get(`${API_URL}/api/secretfilessend`);
         setSecretfiles(response.data);
     };
     const fetchUsers = async () => {
-        const response = await axios.get('http://localhost:5278/api/users');
+        const response = await axios.get(`${API_URL}/api/users`);
         setUsers(response.data);
     };
     const handleAddOrEditFiles = async (values) => {
@@ -287,13 +287,13 @@ function App() {
             let response = null;
 
             if (currentFile) {
-                response = await axios.put(`http://localhost:5278/api/secretfilessend/${currentFile.id}`, formData, {
+                response = await axios.put(`${API_URL}/api/secretfilessend/${currentFile.id}`, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     }
                 });
             } else {
-                response = await axios.post('http://localhost:5278/api/secretfilessend', formData, {
+                response = await axios.post(`${API_URL}/api/secretfilessend`, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     }
@@ -337,7 +337,7 @@ function App() {
     };
     const handleDeleteFiles = async (id) => {
         if (currentPage === 'send') {
-            await axios.delete(`http://localhost:5278/api/secretfilessend/${id}`, {
+            await axios.delete(`${API_URL}/api/secretfilessend/${id}`, {
                 headers: {
                     username: sessionStorage.getItem('username') // ✅ เพิ่มตรงนี้
                 }
@@ -346,7 +346,7 @@ function App() {
             setCurrentFilecurrentFile(null);
             await fetchSecretfiles();
         } else if (currentPage === 'receive') {
-            await axios.delete(`http://localhost:5278/api/receivedocs/${id}`, {
+            await axios.delete(`${API_URL}/api/receivedocs/${id}`, {
                 headers: {
                     username: sessionStorage.getItem('username') // ✅ เพิ่มตรงนี้
                 }
@@ -367,8 +367,8 @@ function App() {
             formData.append("role", values.role);
 
             const url = currentUser
-                ? `http://localhost:5278/api/users/${currentUser.id}`
-                : 'http://localhost:5278/api/users';
+                ? `${API_URL}/api/users/${currentUser.id}`
+                : `${API_URL}/api/users`;
 
             const method = currentUser ? 'put' : 'post';
             const response = await axios({
@@ -394,7 +394,7 @@ function App() {
     };
     const handleDeleteUser = async (userId) => {
         try {
-            await fetch(`http://localhost:5278/api/users/${userId}`, {
+            await fetch(`${API_URL}/api/users/${userId}`, {
                 method: 'DELETE',
             });
 
@@ -438,11 +438,11 @@ function App() {
             let response = null;
 
             if (currentReceive) {
-                response = await axios.put(`http://localhost:5278/api/receivedocs/${currentReceive.id}`, formData, {
+                response = await axios.put(`${API_URL}/api/receivedocs/${currentReceive.id}`, formData, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
             } else {
-                response = await axios.post('http://localhost:5278/api/receivedocs', formData, {
+                response = await axios.post(`${API_URL}/api/receivedocs`, formData, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
             }
@@ -681,9 +681,9 @@ function App() {
         let fileUrl = '';
         if (currentPage === 'send') {
 
-            fileUrl = `http://localhost:5278/uploads/send/${fileName}`;
+            fileUrl = `${API_URL}/uploads/send/${fileName}`;
         } else if (currentPage === 'receive') {
-            fileUrl = `http://localhost:5278/uploads/receive/${fileName}`;
+            fileUrl = `${API_URL}/uploads/receive/${fileName}`;
         }
 
         fetch(fileUrl)
@@ -750,7 +750,7 @@ function App() {
             render: (fileName) => {
                 if (!fileName) return '-';
 
-                const fileUrl = `http://localhost:5278/uploads/send/${fileName}`;
+                const fileUrl = `${API_URL}/uploads/send/${fileName}`;
 
                 return (
                     <Space size="middle">
@@ -854,7 +854,7 @@ function App() {
             title: 'ไฟล์', dataIndex: 'file', key: 'file', align: 'center',
             render: (fileName) => {
                 if (!fileName) return '-';
-                const fileUrl = `http://localhost:5278/uploads/receive/${fileName}`;
+                const fileUrl = `${API_URL}/uploads/receive/${fileName}`;
                 return (
                     <Space size="middle">
                         <a href={fileUrl} target="_blank" rel="noopener noreferrer">
@@ -885,6 +885,7 @@ function App() {
             )
         }
     ];
+    /**/ 
     if (!isAuthenticated) {
         return (
             <>
@@ -926,6 +927,10 @@ function App() {
                                 </Form.Item>
                             </Form>
                         </div>
+                        ทดสอบระบบ login ด้วย<br></br>
+                        Username : admin<br></br>
+                        Password : admin<br></br>
+                        login ครั้งแรกอาจใช้เวลานานเนื่องจาก server อยู่ในสถานะ sleep
                     </div>
                 </Layout>
 
